@@ -1,19 +1,19 @@
 export interface FoodEntry {
   id: string;
+  type: "food";
   date: Date;
   description: string;
-  imageUri?: string;
   calories: number;
-  type: "food";
+  imageUri?: string;
 }
 
 export interface ExerciseEntry {
   id: string;
+  type: "exercise";
   date: Date;
   name: string;
-  caloriesBurned: number;
   duration: number;
-  type: "exercise";
+  caloriesBurned: number;
 }
 
 export type CalorieEntry = FoodEntry | ExerciseEntry;
