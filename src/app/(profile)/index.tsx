@@ -1,5 +1,6 @@
 import * as AC from "@bacons/apple-colors";
 import { useCalories } from "@/context/calorie-context";
+import { Image } from "expo-image";
 import { useState } from "react";
 import {
   View,
@@ -9,6 +10,20 @@ import {
   Pressable,
   useColorScheme,
 } from "react-native";
+
+const withOpacity = (color: any, opacity: number) => {
+  const hex = Math.round(opacity * 255).toString(16).padStart(2, "0");
+  return `${color}${hex}`;
+};
+
+function Icon({ name, color, size = 20 }: { name: string; color: any; size?: number }) {
+  return (
+    <Image
+      source={`sf:${name}`}
+      style={{ width: size, height: size, tintColor: color }}
+    />
+  );
+}
 
 export default function ProfileScreen() {
   const { goals, updateGoals } = useCalories();
@@ -36,37 +51,55 @@ export default function ProfileScreen() {
               scheme === "dark"
                 ? AC.secondarySystemBackground
                 : AC.systemBackground,
-            borderRadius: 16,
+            borderRadius: 20,
             borderCurve: "continuous",
             padding: 20,
-            gap: 16,
+            gap: 20,
             shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 8,
-            elevation: 3,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.12,
+            shadowRadius: 12,
+            elevation: 4,
           }}
         >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "700",
-              color: AC.label,
-            }}
-          >
-            Daily Goals
-          </Text>
-
-          <View style={{ gap: 8 }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <View
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                borderCurve: "continuous",
+                backgroundColor: withOpacity(AC.systemBlue, 0.12),
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name="target" color={AC.systemBlue} size={24} />
+            </View>
             <Text
               style={{
-                fontSize: 17,
-                fontWeight: "600",
+                fontSize: 20,
+                fontWeight: "700",
                 color: AC.label,
               }}
             >
-              Target Calories
+              Daily Goals
             </Text>
+          </View>
+
+          <View style={{ gap: 10 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Icon name="flame.fill" color={AC.systemOrange} size={18} />
+              <Text
+                style={{
+                  fontSize: 17,
+                  fontWeight: "600",
+                  color: AC.label,
+                }}
+              >
+                Target Calories
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: "row",
@@ -75,17 +108,16 @@ export default function ProfileScreen() {
                   scheme === "dark"
                     ? AC.tertiarySystemBackground
                     : AC.secondarySystemBackground,
-                borderRadius: 12,
+                borderRadius: 14,
                 borderCurve: "continuous",
-                padding: 12,
-                borderWidth: 1,
-                borderColor: AC.separator,
+                padding: 14,
               }}
             >
               <TextInput
                 style={{
                   flex: 1,
-                  fontSize: 17,
+                  fontSize: 24,
+                  fontWeight: "600",
                   color: AC.label,
                   fontVariant: ["tabular-nums"],
                 }}
@@ -101,17 +133,20 @@ export default function ProfileScreen() {
                   color: AC.secondaryLabel,
                 }}
               >
-                calories
+                cal/day
               </Text>
             </View>
-            <Text
-              style={{
-                fontSize: 13,
-                color: AC.tertiaryLabel,
-              }}
-            >
-              Your daily calorie target helps track your nutrition goals.
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+              <Icon name="info.circle" color={AC.tertiaryLabel} size={14} />
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: AC.tertiaryLabel,
+                }}
+              >
+                Set your daily calorie goal for better tracking.
+              </Text>
+            </View>
           </View>
 
           <Pressable onPress={handleSave}>
@@ -119,13 +154,21 @@ export default function ProfileScreen() {
               <View
                 style={{
                   backgroundColor: AC.systemBlue,
-                  borderRadius: 12,
+                  borderRadius: 14,
                   borderCurve: "continuous",
                   padding: 16,
+                  flexDirection: "row",
                   alignItems: "center",
-                  opacity: pressed ? 0.7 : 1,
+                  justifyContent: "center",
+                  gap: 10,
+                  opacity: pressed ? 0.8 : 1,
+                  shadowColor: AC.systemBlue,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 8,
                 }}
               >
+                <Icon name="checkmark.circle.fill" color="#FFFFFF" size={22} />
                 <Text
                   style={{
                     fontSize: 17,
@@ -146,41 +189,69 @@ export default function ProfileScreen() {
               scheme === "dark"
                 ? AC.secondarySystemBackground
                 : AC.systemBackground,
-            borderRadius: 16,
+            borderRadius: 20,
             borderCurve: "continuous",
             padding: 20,
-            gap: 12,
+            gap: 16,
           }}
         >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "700",
-              color: AC.label,
-            }}
-          >
-            About
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <View
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                borderCurve: "continuous",
+                backgroundColor: withOpacity(AC.systemPurple, 0.12),
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name="info.circle.fill" color={AC.systemPurple} size={24} />
+            </View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "700",
+                color: AC.label,
+              }}
+            >
+              About
+            </Text>
+          </View>
           <Text
             style={{
               fontSize: 15,
               color: AC.secondaryLabel,
-              lineHeight: 22,
+              lineHeight: 24,
             }}
           >
             This app helps you track your daily calorie intake and exercise.
             Log your meals by taking photos or describing what you eat, and
             import your workouts from Apple Health.
           </Text>
-          <Text
+          <View
             style={{
-              fontSize: 13,
-              color: AC.tertiaryLabel,
-              marginTop: 8,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+              backgroundColor: withOpacity(AC.systemYellow, 0.09),
+              padding: 12,
+              borderRadius: 12,
+              borderCurve: "continuous",
             }}
           >
-            Tip: Long press any entry to delete it.
-          </Text>
+            <Icon name="lightbulb.fill" color={AC.systemYellow} size={20} />
+            <Text
+              style={{
+                fontSize: 14,
+                color: AC.label,
+                flex: 1,
+              }}
+            >
+              Tip: Long press any entry to delete it.
+            </Text>
+          </View>
         </View>
       </View>
     </ScrollView>

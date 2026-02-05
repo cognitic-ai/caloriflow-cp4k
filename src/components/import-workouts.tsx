@@ -1,4 +1,5 @@
 import * as AC from "@bacons/apple-colors";
+import { Image } from "expo-image";
 import { View, Text, Pressable, Alert, useColorScheme } from "react-native";
 
 export function ImportWorkouts() {
@@ -20,27 +21,33 @@ export function ImportWorkouts() {
       {({ pressed }) => (
         <View
           style={{
-            backgroundColor:
-              scheme === "dark"
-                ? AC.secondarySystemBackground
-                : AC.systemBackground,
-            borderRadius: 12,
+            backgroundColor: AC.systemPink,
+            borderRadius: 14,
             borderCurve: "continuous",
             padding: 16,
+            flexDirection: "row",
             alignItems: "center",
-            opacity: pressed ? 0.7 : 1,
-            borderWidth: 1,
-            borderColor: AC.separator,
+            justifyContent: "center",
+            gap: 10,
+            opacity: pressed ? 0.8 : 1,
+            shadowColor: AC.systemPink,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 8,
           }}
         >
+          <Image
+            source="sf:heart.fill"
+            style={{ width: 22, height: 22, tintColor: "#FFFFFF" }}
+          />
           <Text
             style={{
               fontSize: 17,
               fontWeight: "600",
-              color: AC.systemBlue,
+              color: "#FFFFFF",
             }}
           >
-            Import from Apple Health
+            Health
           </Text>
         </View>
       )}

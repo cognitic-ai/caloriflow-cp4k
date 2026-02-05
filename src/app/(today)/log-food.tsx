@@ -14,6 +14,20 @@ import {
   Alert,
 } from "react-native";
 
+const withOpacity = (color: any, opacity: number) => {
+  const hex = Math.round(opacity * 255).toString(16).padStart(2, "0");
+  return `${color}${hex}`;
+};
+
+function Icon({ name, color, size = 20 }: { name: string; color: any; size?: number }) {
+  return (
+    <Image
+      source={`sf:${name}`}
+      style={{ width: size, height: size, tintColor: color }}
+    />
+  );
+}
+
 function estimateCalories(description: string): number {
   const desc = description.toLowerCase();
 
@@ -132,15 +146,18 @@ export default function LogFoodScreen() {
         )}
 
         <View style={{ gap: 12 }}>
-          <Text
-            style={{
-              fontSize: 17,
-              fontWeight: "600",
-              color: AC.label,
-            }}
-          >
-            Add Photo
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Icon name="camera.fill" color={AC.label} />
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: "600",
+                color: AC.label,
+              }}
+            >
+              Add Photo
+            </Text>
+          </View>
           <View style={{ flexDirection: "row", gap: 12 }}>
             <Pressable onPress={takePhoto} style={{ flex: 1 }}>
               {({ pressed }) => (
@@ -148,17 +165,17 @@ export default function LogFoodScreen() {
                   style={{
                     backgroundColor:
                       scheme === "dark"
-                        ? AC.secondarySystemBackground
-                        : AC.systemBackground,
-                    borderRadius: 12,
+                        ? withOpacity(AC.systemBlue, 0.12)
+                        : withOpacity(AC.systemBlue, 0.09),
+                    borderRadius: 14,
                     borderCurve: "continuous",
-                    padding: 16,
+                    padding: 18,
                     alignItems: "center",
+                    gap: 10,
                     opacity: pressed ? 0.7 : 1,
-                    borderWidth: 1,
-                    borderColor: AC.separator,
                   }}
                 >
+                  <Icon name="camera.fill" color={AC.systemBlue} size={28} />
                   <Text
                     style={{
                       fontSize: 15,
@@ -177,22 +194,22 @@ export default function LogFoodScreen() {
                   style={{
                     backgroundColor:
                       scheme === "dark"
-                        ? AC.secondarySystemBackground
-                        : AC.systemBackground,
-                    borderRadius: 12,
+                        ? withOpacity(AC.systemIndigo, 0.12)
+                        : withOpacity(AC.systemIndigo, 0.09),
+                    borderRadius: 14,
                     borderCurve: "continuous",
-                    padding: 16,
+                    padding: 18,
                     alignItems: "center",
+                    gap: 10,
                     opacity: pressed ? 0.7 : 1,
-                    borderWidth: 1,
-                    borderColor: AC.separator,
                   }}
                 >
+                  <Icon name="photo.fill" color={AC.systemIndigo} size={28} />
                   <Text
                     style={{
                       fontSize: 15,
                       fontWeight: "600",
-                      color: AC.systemBlue,
+                      color: AC.systemIndigo,
                     }}
                   >
                     Choose Photo
@@ -204,22 +221,25 @@ export default function LogFoodScreen() {
         </View>
 
         <View style={{ gap: 12 }}>
-          <Text
-            style={{
-              fontSize: 17,
-              fontWeight: "600",
-              color: AC.label,
-            }}
-          >
-            Description
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Icon name="text.alignleft" color={AC.label} />
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: "600",
+                color: AC.label,
+              }}
+            >
+              Description
+            </Text>
+          </View>
           <TextInput
             style={{
               backgroundColor:
                 scheme === "dark"
                   ? AC.secondarySystemBackground
                   : AC.systemBackground,
-              borderRadius: 12,
+              borderRadius: 14,
               borderCurve: "continuous",
               padding: 16,
               fontSize: 17,
@@ -241,23 +261,26 @@ export default function LogFoodScreen() {
           style={{
             backgroundColor:
               scheme === "dark"
-                ? AC.secondarySystemBackground
-                : AC.systemBackground,
-            borderRadius: 12,
+                ? withOpacity(AC.systemGreen, 0.09)
+                : withOpacity(AC.systemGreen, 0.06),
+            borderRadius: 16,
             borderCurve: "continuous",
-            padding: 16,
-            gap: 8,
+            padding: 20,
+            gap: 12,
           }}
         >
-          <Text
-            style={{
-              fontSize: 17,
-              fontWeight: "600",
-              color: AC.label,
-            }}
-          >
-            Estimated Calories
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Icon name="flame.fill" color={AC.systemGreen} />
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: "600",
+                color: AC.label,
+              }}
+            >
+              Estimated Calories
+            </Text>
+          </View>
           <View
             style={{
               flexDirection: "row",
@@ -267,11 +290,11 @@ export default function LogFoodScreen() {
           >
             <TextInput
               style={{
-                fontSize: 34,
+                fontSize: 44,
                 fontWeight: "700",
                 color: AC.systemGreen,
                 fontVariant: ["tabular-nums"],
-                minWidth: 100,
+                minWidth: 120,
               }}
               value={estimatedCalories.toString()}
               onChangeText={(text) => {
@@ -288,31 +311,42 @@ export default function LogFoodScreen() {
                 color: AC.secondaryLabel,
               }}
             >
-              calories
+              cal
             </Text>
           </View>
-          <Text
-            style={{
-              fontSize: 13,
-              color: AC.tertiaryLabel,
-            }}
-          >
-            This is an estimate. You can adjust it manually.
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+            <Icon name="info.circle" color={AC.tertiaryLabel} size={14} />
+            <Text
+              style={{
+                fontSize: 13,
+                color: AC.tertiaryLabel,
+              }}
+            >
+              This is an estimate. Tap to adjust.
+            </Text>
+          </View>
         </View>
 
         <Pressable onPress={handleSave}>
           {({ pressed }) => (
             <View
               style={{
-                backgroundColor: AC.systemBlue,
-                borderRadius: 12,
+                backgroundColor: AC.systemGreen,
+                borderRadius: 14,
                 borderCurve: "continuous",
-                padding: 16,
+                padding: 18,
+                flexDirection: "row",
                 alignItems: "center",
-                opacity: pressed ? 0.7 : 1,
+                justifyContent: "center",
+                gap: 10,
+                opacity: pressed ? 0.8 : 1,
+                shadowColor: AC.systemGreen,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
               }}
             >
+              <Icon name="checkmark.circle.fill" color="#FFFFFF" size={22} />
               <Text
                 style={{
                   fontSize: 17,
